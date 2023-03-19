@@ -18,14 +18,13 @@ void CPU::Context::load()
 CPU::Context::~Context()
 {
     //adicionar implementação
-    delete &_stack;
-    delete &_context;
+    //free(this->_stack);
+    delete this->_stack;
 }
 
 int CPU::switch_context(Context *from, Context *to)
 {
     //adicionar implementação
-    
     return swapcontext(&from->_context,&to->_context);
 }
 

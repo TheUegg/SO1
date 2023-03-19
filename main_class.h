@@ -24,9 +24,9 @@ public:
 
         CPU::switch_context(ContextMain, ping) ;
         CPU::switch_context(ContextMain, pong) ;
-
+        
         std::cout << "main: fim\n";
-
+        
         delete ContextMain;
         delete ping;
         delete pong;

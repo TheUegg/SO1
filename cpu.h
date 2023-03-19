@@ -22,10 +22,10 @@ class CPU
             Context(void (* func)(Tn ...), Tn ... an){
                 getcontext(&this->_context);
                 this->_stack = new char [this->STACK_SIZE];
-                _context.uc_link = 0;
-                _context.uc_stack.ss_sp = this->_stack;
-                _context.uc_stack.ss_size = this->STACK_SIZE; 
-                _context.uc_stack.ss_flags = 0;
+                this->_context.uc_link = 0;
+                this->_context.uc_stack.ss_sp = this->_stack;
+                this->_context.uc_stack.ss_size = this->STACK_SIZE; 
+                this->_context.uc_stack.ss_flags = 0;
                 
                 makecontext(&_context, (void (*)())func,(int)sizeof...(an),an...); // TAlvez troque o 0 depois
             }
