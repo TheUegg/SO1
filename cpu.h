@@ -20,14 +20,14 @@ class CPU
 
             template<typename ... Tn>
             Context(void (* func)(Tn ...), Tn ... an){
-                void save();
-                int* mem =(int*) malloc(STACK_SIZE);
+                getcontext(&this->_context);
+                this->_stack = new char [this->STACK_SIZE];
                 _context.uc_link = 0;
-                _context.uc_stack.ss_sp = mem;
-                _context.uc_stack.ss_size = STACK_SIZE; 
+                _context.uc_stack.ss_sp = this->_stack;
+                _context.uc_stack.ss_size = this->STACK_SIZE; 
                 _context.uc_stack.ss_flags = 0;
                 
-                makecontext(&_context,(void*)func,0); // TAlvez troque o 0 depois
+                makecontext(&_context, (void (*)())func,(int)sizeof...(an),an...); // TAlvez troque o 0 depois
             }
 
             ~Context();
