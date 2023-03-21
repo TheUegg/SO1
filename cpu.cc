@@ -5,26 +5,25 @@ __BEGIN_API
 
 void CPU::Context::save()
 {
-    //adicionar implementação
+    //Salva o contexto no ponteiro
     getcontext(&this->_context);
 }
 
 void CPU::Context::load()
 {
-    //adicionar implementação
+    //Restaura o contexto salvo
     setcontext(&this->_context);
 }
 
 CPU::Context::~Context()
 {
-    //adicionar implementação
-    //free(this->_stack);
+    //Libera o espaço alocado
     delete this->_stack;
 }
 
 int CPU::switch_context(Context *from, Context *to)
 {
-    //adicionar implementação
+    //Troca o contexto usando os parametros como base
     return swapcontext(&from->_context,&to->_context);
     
 }

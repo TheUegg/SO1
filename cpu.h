@@ -20,14 +20,20 @@ class CPU
 
             template<typename ... Tn>
             Context(void (* func)(Tn ...), Tn ... an){
+                //Inicializa o contexto
                 getcontext(&this->_context);
-                this->_stack = new char [this->STACK_SIZE];
-                this->_context.uc_link = 0;
-                this->_context.uc_stack.ss_sp = this->_stack;
-                this->_context.uc_stack.ss_size = this->STACK_SIZE; 
-                this->_context.uc_stack.ss_flags = 0;
+
+                //Seta o tamanho do stack
+                _stack = new char [this->STACK_SIZE];
                 
-                makecontext(&_context, (void (*)())func,(int)sizeof...(an),an...); // TAlvez troque o 0 depois
+                //Linka o contexto a stack
+                _context.uc_link = 0;
+                _context.uc_stack.ss_sp = _stack;
+                _context.uc_stack.ss_size = this->STACK_SIZE; 
+                _context.uc_stack.ss_flags = 0;
+                
+                //Acopla a função ao contexto
+                makecontext(&_context, (void (*)())func,(int)sizeof...(an),an...);
             }
 
             ~Context();
