@@ -42,7 +42,11 @@ public:
     static int switch_context(Thread * prev, Thread * next){
         db<Thread>(TRC)<<"Thread::switch_context()\n"
         this->_running = next;
-        CPU::switch_context(prev->_context, next->_context);
+        int switch_status = CPU::switch_context(prev->_context, next->_context);
+        if(switch_status != 0)
+            db<Thread>(ERR)<<"Thread::switch_context() - ERRO no retorno da troca de contexto\n"
+        if(prev == next)
+            db<Thread>(ERR)<<"Thread::switch_context() - ERRO próximo contexto igual ao contexto atual\n"
     }
 
     /*
