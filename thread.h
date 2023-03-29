@@ -23,7 +23,7 @@ public:
     Thread(void (* entry)(Tn ...), Tn ... an){
         db<Thread>(TRC)<<"Thread()\n";
         pthread_t thread;
-        pthread_create(&thread, NULL, (void (*)())entry,(int)sizeof...(an),an...);
+        pthread_create(&thread, NULL, (void* (*)(void*))entry,(int)sizeof...(an),an...);
         this->_running = &thread;
         pthread_join(_running, NULL);
     }
@@ -76,7 +76,7 @@ public:
     Context * volatile context(){
         return _context;
     }
-
+    
     /*
      * Qualquer outro método que você achar necessário para a solução.
      */ 

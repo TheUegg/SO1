@@ -16,18 +16,18 @@ class Thread;
 //declaração da classe Traits
 template<typename T>
 struct Traits {
-    static const bool debugged = true;
-};
-
-template<> struct Traits<Thread>: public Traits<void>{
-    static const bool debugged = true;
 };
 
 template<> struct Traits<CPU>
 {
-    static const bool debugged = true;
     //Tamanho da pilha, valor atribuido usando como base o exemplo na descrição do trabalho  
     static const unsigned int STACK_SIZE = 16384;
+    static const bool debugged = true;
+};
+
+template<> struct Traits<Thread> : public Traits<void>
+{   
+    static const bool debugged = true;
 };
 
 template<> struct Traits<Debug>: public Traits<void> {
