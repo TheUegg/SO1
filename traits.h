@@ -19,6 +19,7 @@ struct Traits {
 
 template<> struct Traits<CPU>
 {
+    static const bool debugged = true;
     //Tamanho da pilha, valor atribuido usando como base o exemplo na descrição do trabalho  
     static const unsigned int STACK_SIZE = 16384;
 };
@@ -28,7 +29,7 @@ template<> struct Traits<Debug>: public Traits<void> {
     static const bool warning = false;
     static const bool info = false;
     static const bool trace = true;
-}
+};
 
 __END_API
 
