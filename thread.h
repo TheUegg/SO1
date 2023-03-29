@@ -21,7 +21,7 @@ public:
      */ 
     template<typename ... Tn>
     Thread(void (* entry)(Tn ...), Tn ... an){
-        db<Thread>(TRC)<<"Thread()\n"
+        db<Thread>(TRC)<<"Thread()\n";
         this->_context = new Context(void (* entry)(Tn ...), Tn ... an);
         pthread_t thread = pthread_create(&_running, NULL, void (* entry)(Tn ...), Tn ... an);
         this->_running = &thread;
@@ -40,13 +40,18 @@ public:
      * Valor de retorno é negativo se houve erro, ou zero.
      */ 
     static int switch_context(Thread * prev, Thread * next){
-        db<Thread>(TRC)<<"Thread::switch_context()\n"
+        db<Thread>(TRC)<<"Thread::switch_context()\n";
         this->_running = next;
         int switch_status = CPU::switch_context(prev->_context, next->_context);
-        if(switch_status != 0)
-            db<Thread>(ERR)<<"Thread::switch_context() - ERRO no retorno da troca de contexto\n"
-        if(prev == next)
-            db<Thread>(ERR)<<"Thread::switch_context() - ERRO próximo contexto igual ao contexto atual\n"
+        if(switch_status != 0){
+            db<Thread>(ERR)<<"Thread::switch_context() - ERRO no retorno da troca de contexto\n";
+            return -1;
+        }
+        if(prev == next) {
+            db<Thread>(ERR)<<"Thread::switch_context() - ERRO próximo contexto igual ao contexto atual\n";
+            return -1;
+        }
+        return 0;
     }
 
     /*
@@ -55,7 +60,7 @@ public:
      * Quando a thread encerra, o controle deve retornar à main. 
      */  
     void thread_exit (int exit_code){
-        db<Thread>(TRC)<<"Thread::thread_exit()\n"
+        db<Thread>(TRC)<<"Thread::thread_exit()\n";
         this->_exit_code = exit_code;
         pthread_exit(NULL);
     }
@@ -64,7 +69,7 @@ public:
      * Retorna o ID da thread.
      */ 
     int id(){
-        db<Thread>(TRC)<<"Thread::id()\n"
+        db<Thread>(TRC)<<"Thread::id()\n";
         return (int)gettid();
     }
 
