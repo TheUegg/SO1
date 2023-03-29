@@ -22,8 +22,8 @@ public:
     template<typename ... Tn>
     Thread(void (* entry)(Tn ...), Tn ... an){
         db<Thread>(TRC)<<"Thread()\n";
-        this->_context = new Context((void (*)())entry,(int)sizeof...(an),an...);
-        pthread_t thread = pthread_create(&_running, NULL, (void (*)())entry,(int)sizeof...(an),an...);
+        pthread_t thread;
+        pthread_create(&thread, NULL, (void (*)())entry,(int)sizeof...(an),an...);
         this->_running = &thread;
         pthread_join(_running, NULL);
     }
@@ -70,7 +70,11 @@ public:
      */ 
     int id(){
         db<Thread>(TRC)<<"Thread::id()\n";
-        return (int)pid_t gettid();
+        return (int)pthread_self();
+    }
+
+    Context * volatile context(){
+        return _context;
     }
 
     /*
