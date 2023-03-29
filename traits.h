@@ -10,6 +10,7 @@
 __BEGIN_API
 
 class CPU; //declaração das classes criadas nos trabalhos devem ser colocadas aqui
+class Debug;
 
 //declaração da classe Traits
 template<typename T>
