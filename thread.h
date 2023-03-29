@@ -22,8 +22,8 @@ public:
     template<typename ... Tn>
     Thread(void (* entry)(Tn ...), Tn ... an){
         db<Thread>(TRC)<<"Thread()\n";
-        this->_context = new Context(void (* entry)(Tn ...), Tn ... an);
-        pthread_t thread = pthread_create(&_running, NULL, void (* entry)(Tn ...), Tn ... an);
+        this->_context = new Context((void (*)())entry,(int)sizeof...(an),an...);
+        pthread_t thread = pthread_create(&_running, NULL, (void (*)())entry,(int)sizeof...(an),an...);
         this->_running = &thread;
         pthread_join(_running, NULL);
     }
@@ -41,7 +41,7 @@ public:
      */ 
     static int switch_context(Thread * prev, Thread * next){
         db<Thread>(TRC)<<"Thread::switch_context()\n";
-        this->_running = next;
+        _running = next;
         int switch_status = CPU::switch_context(prev->_context, next->_context);
         if(switch_status != 0){
             db<Thread>(ERR)<<"Thread::switch_context() - ERRO no retorno da troca de contexto\n";
@@ -70,7 +70,7 @@ public:
      */ 
     int id(){
         db<Thread>(TRC)<<"Thread::id()\n";
-        return (int)gettid();
+        return (int)pid_t gettid();
     }
 
     /*
