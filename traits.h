@@ -22,6 +22,13 @@ template<> struct Traits<CPU>
     static const unsigned int STACK_SIZE = 16384;
 };
 
+template<> struct Traits<Debug>: public Traits<void> {
+    static const bool error = false;
+    static const bool warning = false;
+    static const bool info = false;
+    static const bool trace = false;
+}
+
 __END_API
 
 #endif
