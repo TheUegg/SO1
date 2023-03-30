@@ -22,10 +22,10 @@ public:
     template<typename ... Tn>
     Thread(void (* entry)(Tn ...), Tn ... an){
         db<Thread>(TRC)<<"Thread()\n";
-        pthread_t thread;
-        pthread_create(&thread, NULL, (void* (*)(void*))entry,(int)sizeof...(an),an...);
-        this->_running = &thread;
-        pthread_join(_running, NULL);
+        this->*_context = new Context(entry, an...);
+        this->_id = _thread_count;
+        _thread_count++;
+        _running = &this;
     }
 
     /*
@@ -40,8 +40,7 @@ public:
      * Valor de retorno é negativo se houve erro, ou zero.
      */ 
     static int switch_context(Thread * prev, Thread * next){
-        db<Thread>(TRC)<<"Thread::switch_context()\n";
-        _running = next;
+        db<Thread>(TRC)<<"Thread::switch_context()\n";        
         int switch_status = CPU::switch_context(prev->_context, next->_context);
         if(switch_status != 0){
             db<Thread>(ERR)<<"Thread::switch_context() - ERRO no retorno da troca de contexto\n";
@@ -51,6 +50,7 @@ public:
             db<Thread>(ERR)<<"Thread::switch_context() - ERRO próximo contexto igual ao contexto atual\n";
             return -1;
         }
+        _running = next;
         return 0;
     }
 
@@ -61,8 +61,8 @@ public:
      */  
     void thread_exit (int exit_code){
         db<Thread>(TRC)<<"Thread::thread_exit()\n";
-        this->_exit_code = exit_code;
-        pthread_exit(NULL);
+        // pthread_exit(NULL);
+
     }
 
     /*
@@ -70,11 +70,11 @@ public:
      */ 
     int id(){
         db<Thread>(TRC)<<"Thread::id()\n";
-        return (int)pthread_self();
+        return self->_id;
     }
 
     Context * volatile context(){
-        return _context;
+        return self->_context;
     }
     
     /*
@@ -83,9 +83,9 @@ public:
 
 private:
     int _id;
+    static int _thread_count = 0;
     Context * volatile _context;
     static Thread * _running;
-    int _exit_code;
 
     /*
      * Qualquer outro atributo que você achar necessário para a solução.
