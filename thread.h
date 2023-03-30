@@ -22,10 +22,19 @@ public:
     template<typename ... Tn>
     Thread(void (* entry)(Tn ...), Tn ... an){
         db<Thread>(TRC)<<"Thread()\n";
+
+        //salva o contexto de main
+        *_context_main = new Context();
+        *_context_main->save();
+
+        //cria o contexto da thread com a função que foi passada
         this->*_context = new Context(entry, an...);
         this->_id = _thread_count;
         _thread_count++;
         _running = &this;
+        int switch_status = CPU::switch_context(&_context_main,&this->_context); //passa o controle para a thread criada
+        if(switch_status != 0)
+            db<Thread>(ERR)<<"Thread() - ERRO ao passar o controle para a nova thread\n";
     }
 
     /*
@@ -61,8 +70,10 @@ public:
      */  
     void thread_exit (int exit_code){
         db<Thread>(TRC)<<"Thread::thread_exit()\n";
-        // pthread_exit(NULL);
-
+        int switch_status = CPU::switch_context(&this->_context,&_context_main); //devolve o controle para a main
+        _running = NULL;
+        if(switch_status != 0)
+            db<Thread>(ERR)<<"Thread::thread_exit() - ERRO ao devolver o controle ao main";
     }
 
     /*
@@ -82,14 +93,16 @@ public:
      */ 
 
 private:
-    int _id;
-    static int _thread_count = 0;
+    int _id;    
     Context * volatile _context;
     static Thread * _running;
 
     /*
      * Qualquer outro atributo que você achar necessário para a solução.
      */ 
+
+    static int _thread_count = 0;
+    static Context * _context_main;
 };
 
 __END_API
