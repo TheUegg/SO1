@@ -18,7 +18,10 @@ void CPU::Context::load()
 CPU::Context::~Context()
 {
     //Libera o espaço alocado
-    delete this->_stack;
+    if(_stack != 0 ){
+        delete this->_stack;
+        _stack = 0;
+    }
 }
 
 int CPU::switch_context(Context *from, Context *to)

@@ -22,10 +22,11 @@ public:
     template<typename ... Tn>
     Thread(void (* entry)(Tn ...), Tn ... an){
         db<Thread>(TRC)<<"Thread()\n";
-        pthread_t thread;
-        pthread_create(&thread, NULL, (void* (*)(void*))entry,(int)sizeof...(an),an...);
-        this->_running = &thread;
-        pthread_join(_running, NULL);
+
+        //Coloca o id da thread pelo contador, e inicia o contexto da thread
+        _id = _thread_count;
+        _thread_count++;
+        _context = new Context(entry, an...);
     }
 
     /*
@@ -39,38 +40,22 @@ public:
      * Deve encapsular a chamada para a troca de contexto realizada pela class CPU.
      * Valor de retorno é negativo se houve erro, ou zero.
      */ 
-    static int switch_context(Thread * prev, Thread * next){
-        db<Thread>(TRC)<<"Thread::switch_context()\n";
-        _running = next;
-        int switch_status = CPU::switch_context(prev->_context, next->_context);
-        if(switch_status != 0){
-            db<Thread>(ERR)<<"Thread::switch_context() - ERRO no retorno da troca de contexto\n";
-            return -1;
-        }
-        if(prev == next) {
-            db<Thread>(ERR)<<"Thread::switch_context() - ERRO próximo contexto igual ao contexto atual\n";
-            return -1;
-        }
-        return 0;
-    }
+    static int switch_context(Thread * prev, Thread * next);
 
     /*
-     * Termina a thread.
+     * Termina a thread.    
      * exit_code é o código de término devolvido pela tarefa (ignorar agora, vai ser usado mais tarde).
      * Quando a thread encerra, o controle deve retornar à main. 
      */  
-    void thread_exit (int exit_code){
-        db<Thread>(TRC)<<"Thread::thread_exit()\n";
-        this->_exit_code = exit_code;
-        pthread_exit(NULL);
-    }
+    void thread_exit (int exit_code);//{
+        
 
     /*
      * Retorna o ID da thread.
      */ 
     int id(){
         db<Thread>(TRC)<<"Thread::id()\n";
-        return (int)pthread_self();
+        return Thread::_id;
     }
 
     Context * volatile context(){
@@ -82,14 +67,15 @@ public:
      */ 
 
 private:
-    int _id;
+    int _id;    
     Context * volatile _context;
     static Thread * _running;
-    int _exit_code;
 
     /*
      * Qualquer outro atributo que você achar necessário para a solução.
      */ 
+
+    static unsigned int _thread_count;
 };
 
 __END_API
