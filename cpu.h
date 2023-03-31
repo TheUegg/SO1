@@ -39,7 +39,7 @@ class CPU
                     makecontext(&_context, (void (*)())func,(int)sizeof...(an),an...);
                 }
                 else{
-                    abort();
+
                 }
             }
 

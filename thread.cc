@@ -6,7 +6,7 @@
 
 __BEGIN_API
 
-Thread * Thread::_running = nullptr;
+Thread * Thread::_running = NULL;
 unsigned int Thread::_thread_count = 0;
 
 int Thread::switch_context(Thread * prev, Thread * next){        
