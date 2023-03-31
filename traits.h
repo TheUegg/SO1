@@ -25,6 +25,7 @@ template<> struct Traits<CPU>
     static const bool debugged = true;
 };
 
+//Para mensagens de depuração
 template<> struct Traits<Thread> : public Traits<void>
 {   
     static const bool debugged = true;
