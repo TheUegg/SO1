@@ -1,4 +1,4 @@
-# Makefile T2
+# Makefile T3
 
 # Name of the project
 PROJ_NAME=S01-T3
