@@ -1,7 +1,7 @@
 # Makefile T2
 
 # Name of the project
-PROJ_NAME=printy
+PROJ_NAME=S01-T3
 
 # .cc files
 C_SOURCE=$(wildcard *.cc)
