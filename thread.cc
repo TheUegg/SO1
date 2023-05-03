@@ -19,21 +19,21 @@ Thread::Ready_Queue Thread::_ready;
 
     void Thread::dispatcher(){
         db<Thread>(TRC)<<"Thread::dispatcher()\n";
-        while(!_ready.empty() && _ready.head()->object() != &_dispatcher) {
+        while(!_ready.empty() && _ready.head()->object() != &_dispatcher) { //enquanto a fila não está vazia e o objeto no início da fila não é o dispatcher
 
             Thread *next_thread = next(); //escolha uma próxima thread a ser executada
-            Thread *prev_thread = _running;
+            Thread *prev_thread = _running; //define a thread atual como a thread anterior
 
-            dequeue(next_thread, _ready);
+            dequeue(next_thread, _ready); //remove a thread em execução da lista de threads prontas
             Thread::_thread_count--;
 
-            enqueue(&_dispatcher, _ready);
-            _dispatcher.set_state(READY);
-            switch_context(prev_thread, next_thread);
+            enqueue(&_dispatcher, _ready); //coloca o dispatcher no fim da fila
+            _dispatcher.set_state(READY);  //define o dispatcher como pronto
+            switch_context(prev_thread, next_thread); //troca o contexto para próxima thread
         }
-        _dispatcher.set_state(FINISHING);
+        _dispatcher.set_state(FINISHING); //dispatcher finalizando
         dequeue(&_dispatcher, _ready);
-        switch_context(&_dispatcher, &_main);
+        switch_context(&_dispatcher, &_main); //troca o contexto para main, para a finalização do programa
     }
 
     /*
@@ -42,10 +42,10 @@ Thread::Ready_Queue Thread::_ready;
     void Thread::enqueue(Thread * thread,Thread::Ready_Queue &queue){
 	    db<Thread>(TRC)<<"Thread::enqueue(Thread * thread,Thread::System_Queue &queue)\n";
 
-        if(thread == 0)
+        if(thread == 0) //nada na fila, nada a ser feito
             return;
 
-        if(thread == &_dispatcher)
+        if(thread == &_dispatcher) //se há apenas o dispatcher na fila, não há necessidade de atualizar prioridades
             queue.insert_head(thread->link());
         else{
             thread->update_priority();
@@ -53,7 +53,7 @@ Thread::Ready_Queue Thread::_ready;
         }
 
         db<Thread>(TRC)<<"Thread::insert_queue: Thread " << thread->id() << " inserida na fila ";
-        if(&queue == &_ready){
+        if(&queue == &_ready){ //se for a fila de prontos, a thread será marcada como pronta
             db<Thread>(TRC)<<" _ready\n";
             thread->set_state(READY);
         }
@@ -81,11 +81,11 @@ Thread::Ready_Queue Thread::_ready;
 		dequeue(&_main, _ready);
 		_running = &_main;
 
-        new (&_dispatcher) Thread((void (*) (void *)) &Thread::dispatcher, (void *) NULL);
+        new (&_dispatcher) Thread((void (*) (void *)) &Thread::dispatcher, (void *) NULL); //criação do dispatcher
 
         db<Thread>(TRC) << "Thread::init: Dispatcher thread foi criada\n";	
 
-		CPU::switch_context(&_main_context, _main.context());
+		CPU::switch_context(&_main_context, _main.context()); //coloca a thread main em execução
 	}
 
     int Thread::switch_context(Thread * prev, Thread * next) 
@@ -118,7 +118,7 @@ Thread::Ready_Queue Thread::_ready;
     void Thread::update_priority()
     {
 		db<Thread>(TRC)<<"Thread::update_priority()\n";
-
+        //prioridade é o tempo entre o epoch (data de início) do relógio e o momento atual
 		int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 		link()->rank(now);
 		db<Thread>(TRC)<<"Thread::update_priority: Thread " << id() << " prioridade atualizada para " << now << "\n";
