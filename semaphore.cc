@@ -7,26 +7,26 @@ __BEGIN_API
 
 Semaphore::Semaphore(int v)
 {
-	_v = v;	
+	_v = v;	//salva o valor recebido para inicializar o semáfaro
 }
 
 Semaphore::~Semaphore()
 {
-	wakeup_all();
+	wakeup_all(); //ao destruir o semáfaro, libera todas as threads que o semáfaro bloqueava
 }
 
 void Semaphore::p(){
 	db<Semaphore>(TRC)<<"Semaphore::p()\n";
 
-	if(fdec(_v) < 1){
-		sleep();
+	if(fdec(_v) < 1){ //se a decrementação atômica resultar em zero ou negativa
+		sleep();      //espera até o semáfaro liberar
 	}
 }
 
 void Semaphore::v(){
     db<Semaphore>(TRC)<<"Semaphore::v()\n";
-	if(finc(_v) < 0){
-		wakeup();
+	if(finc(_v) < 0){ //se a incrementação atômica  for negativa
+		wakeup();     //libera a thread
 	}	
 }
 
@@ -35,13 +35,13 @@ void Semaphore::v(){
 int Semaphore::finc(volatile int & number) {
 	db<Semaphore>(INF)<<"Semaphore::finc()\n";
 	
-	return CPU::xadd(number,1);
+	return CPU::xadd(number,1); //incrementação atômica
 }
 
 int Semaphore::fdec(volatile int & number) {
 	db<Semaphore>(INF)<<"Semaphore::fdec()\n";
 	
-	return CPU::xadd(number,-1);
+	return CPU::xadd(number,-1);  //decrementação atômica
 }
 
 void Semaphore::sleep()
