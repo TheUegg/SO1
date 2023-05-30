@@ -251,24 +251,24 @@ Thread::Suspended_Queue Thread::_suspend;
     {
 		db<Thread>(TRC)<<"Thread::sleep()\n";
 
-		enqueue(_running, _sleeping);
-		_running->_sleepOrder = &_sleeping;
+		enqueue(_running, _sleeping); //coloca na fila de dormindo
+		_running->_sleepOrder = &_sleeping; //salva a fila de dormindo na thread atual
 		yield();
 	}
 
 	void Thread::wakeup(Sleep_Queue &_sleeping)
     {
 		db<Thread>(TRC)<<"Thread::wakeup()\n";
-		if(_sleeping.size() != 0){
+		if(_sleeping.size() != 0){ //se existe alguém para acordar
 			Thread * thread = _sleeping.head()->object();
 			Thread * prev = _running;
 
-			dequeue(thread, _sleeping);
-			enqueue(prev, _ready);
+			dequeue(thread, _sleeping); //remove a thread da fila de dormindo
+			enqueue(prev, _ready); //coloca a thread atual na fila de prontos
 			
-			thread->_sleepOrder = 0;
+			thread->_sleepOrder = 0; //reseta a fila de dormindo na thread que vai rodar
 
-			switch_context(prev,thread);
+			switch_context(prev,thread); //troca o contexto para a thread que acordou
 		}
 	}
 
@@ -276,12 +276,12 @@ Thread::Suspended_Queue Thread::_suspend;
     {
 		db<Thread>(TRC) << "Thread::wakeup_all()\n";
 		Thread * thread = 0;
-		while(_sleeping.size() > 0){
+		while(_sleeping.size() > 0){ //enquanto existe alguém para acordar
 			thread = _sleeping.tail()->object();
-			dequeue(thread, _sleeping);
-			thread->set_state(READY);
-			thread->_sleepOrder = 0;
-			_ready.insert_head(thread->link());
+			dequeue(thread, _sleeping); //acorda o último da fila
+			thread->set_state(READY); //seta o estado para pronto
+			thread->_sleepOrder = 0; //reseta a fila de dormindo na thread
+			_ready.insert_head(thread->link()); 
 		}
 		yield();
 	}

@@ -33,6 +33,7 @@ int CPU::switch_context(Context *from, Context *to)
 int CPU::xadd(volatile int & number, int add){
 	int val = add;
 	__asm__ __volatile__("lock xadd %0, %2":"=a"(val):"a"(val),"m"(number) : "memory");
+    //salva em val a soma de val com o number, não permitindo que o processador reordene os acessos à memória
 	return val;
 }
 
