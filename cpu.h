@@ -58,6 +58,8 @@ class CPU
 
         static int switch_context(Context *from, Context *to);
 
+        static int xadd(volatile int &number, int add);
+
 };
 
 __END_API

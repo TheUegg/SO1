@@ -12,6 +12,10 @@ __BEGIN_API
 class CPU; //declaração das classes criadas nos trabalhos devem ser colocadas aqui
 class Debug;
 class Thread;
+class System;
+class Lists;
+class Semaphore;
+
 
 //declaração da classe Traits
 template<typename T>
@@ -31,11 +35,26 @@ template<> struct Traits<Thread> : public Traits<void>
     static const bool debugged = true;
 };
 
+template<> struct Traits<System> 
+{
+    static const bool debugged = true;
+};
+
+template<> struct Traits<Lists> 
+{
+    static const bool debugged = true;
+};
+
+template<> struct Traits<Semaphore> 
+{
+    static const bool debugged = true;
+};
+
 template<> struct Traits<Debug>: public Traits<void> {
     static const bool error = false;
     static const bool warning = false;
     static const bool info = false;
-    static const bool trace = true;
+    static const bool trace = false;
 };
 
 __END_API
