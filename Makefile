@@ -1,41 +1,26 @@
-# Makefile T2
-
-# Name of the project
-PROJ_NAME=printy
-
-# .cc files
-C_SOURCE=$(wildcard *.cc)
-
-# .h files
-H_SOURCE=$(wildcard *.h)
-
-# Object files
-OBJ=$(C_SOURCE:.cc=.o)
-
-# Compiler
+IDIR =.
 CC=g++
+LDLIBS =  -lsfml-graphics -lsfml-window -lsfml-system -lm  -g
+CFLAGS=-I$(IDIR) -g -Wextra -Wall
 
-# Flags for compiler
-CC_FLAGS=-c         \
-         -W         \
-         -Wall      \
-         -ansi      \
-         -pedantic	\
-		 -std=c++11
+LDFLAGS= $(CFLAGS)
 
-#
-# Compilation and linking
-#
-all: $(PROJ_NAME)
+ODIR=.
+LIBS= $(LDLIBS) $(LDFLAGS)
 
-$(PROJ_NAME): $(OBJ)
-	$(CC) -o $@ $^
+_DEPS = window.h
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-%.o: %.cc %.h
-	$(CC) -o $@ $< $(CC_FLAGS)
+_OBJ = main.o window.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-main.o: main.cc $(H_SOURCE)
-	$(CC) -o $@ $< $(CC_FLAGS)
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -std=c++14 -c -o $@ $< $(CFLAGS)
+
+main: $(OBJ)
+	$(CC) -std=c++14 -o $@ $^ $(CFLAGS) $(LIBS)
+
+.PHONY: clean
 
 clean:
-	rm -rf *.o $(PROJ_NAME) *~
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ main
