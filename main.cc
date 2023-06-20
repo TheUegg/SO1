@@ -1,10 +1,16 @@
-#include "window.h"
+#include "input.h"
+#include "display.h"
 
 int main(void)
 {
-    Window window;
+    /*Window window;
 
-    window.run();
+    window.run();*/
+
+    Display display;
+    Input input(&display);
+
+    input.run();
 
     return 0;
 }
