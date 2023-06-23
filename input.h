@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include<display.h>
+#include "display.h"
 //#include<main_class.h>
 //#include<player.h>
 

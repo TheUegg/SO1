@@ -65,18 +65,21 @@ void Input::run()
             }
         }
 
-        window.clear();
-        window.draw(display_.maze_sprite);
+        //ISSO FICA NO DISPLAY
         
-        display_.space_ship_sprite.setPosition(220, 365);
-        window.draw(space_ship_sprite);
+        //window.clear();
+        //window.draw(display_.maze_sprite);
         
-        display_.enemy_ship_sprite.setPosition(245, 150);
-        window.draw(display_.enemy_ship_sprite);
+        //display_.space_ship_sprite.setPosition(220, 365);
+        //window.draw(space_ship_sprite);
+        
+        //display_.enemy_ship_sprite.setPosition(245, 150);
+        //window.draw(display_.enemy_ship_sprite);
 
-        display_.shot_sprite.setPosition(204, 400);
-        window.draw(display_.shot_sprite);
+        //display_.shot_sprite.setPosition(204, 400);
+        //window.draw(display_.shot_sprite);
         
-        window.display();
+        //window.display();
+        
     }
 }
