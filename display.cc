@@ -85,11 +85,15 @@ void Display::draw_maze(){
 }
 
 void Display::draw_battleShip(){
-
+    sf::Sprite sprite;
+    sprite = battleShip[(int)(battleShip_sprite / 4)];
+    //sprite.setPosition();
 }
 
 void Display::draw_enemy(Name name){
-
+    sf::Sprite sprite;
+    sprite = enemyShip[(int)(enemyShip_sprite / 4)];
+    //sprite.setPosition();
 }
 
 void Display::start(){

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "enum.h"
+#include "interface.h"
 
 class Display
 {
@@ -30,7 +31,7 @@ private:
 
     //novos files
     Interface _interface;
-    KeyInput _key;
+    //KeyInput _key;// talvez algo assim
 
     //maze texture
     sf::Texture maze_tex;
