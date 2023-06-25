@@ -36,6 +36,7 @@ class Interface{
         static int _lives;
         static int _level;
         static unsigned int _points;
+        static Tile _maze[32][32];
         
 };
 

@@ -5,12 +5,12 @@ Char::Char(Name name){
     _name = name;
     _direction = RIGHT;
     set_speed(1);
-    _x = _interface.get_position((int)name,0);
-    _y = _interface.get_position((int)name,0);
+    _x = _interface.get_position((int)name);
+    _y = _interface.get_position((int)name);
     _b_x = 0.0;
     _b_y = 0.0;
-    _x_px = _interface.get_position_px((int)name,0);
-    _y_px = _interface.get_position_px((int)name,0);
+    _x_px = _interface.get_position_px((int)name);
+    _y_px = _interface.get_position_px((int)name);
 }
 
 int Char::get_x(){
