@@ -9,7 +9,7 @@
 class Display
 {
 public:
-    Display();
+    Display(Interface * interface);
 
     void draw_maze();
     void draw_battleShip();
@@ -23,6 +23,8 @@ public:
     void start();
     void dead(int i);
     void finish();
+
+    void run();
 
 private:
     void load_and_bind_textures();

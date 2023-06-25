@@ -1,7 +1,8 @@
 #include "input.h"
+//eeeeh entao, essa classe toda vai ser refeita
 
-
-Input::Input(Display * display /*, Main * main, Player * player*/)
+/*
+Input::Input(Display * display /*, Main * main, Player * player)
 {
     this->display_=display;
     //this->main_=main;
@@ -83,3 +84,4 @@ void Input::run()
         
     }
 }
+*/

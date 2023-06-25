@@ -6,8 +6,10 @@
 
 class Interface{
     public:
-        int get_position(int x);
-        int get_position_px(int x);
+        int get_position_x(int x);
+        int get_position_y(int x);
+        int get_position_px_x(int x);
+        int get_position_px_y(int x);
         Direction get_direction(int x);
         int get_points();
         int get_lives();
@@ -30,9 +32,9 @@ class Interface{
 
     private:
 
-        static int _positions[4];
-        static int _positions_px[4];
-        static Direction _directions[4];
+        static int _positions[5]; // 0 e o player, o resto na ordem do enum
+        static int _positions_px[5]; // posicoes em pixels, 0 e o player resto segue ordem do enum
+        static Direction _directions[4]; // Lista de direcoes
         static int _lives;
         static int _level;
         static unsigned int _points;

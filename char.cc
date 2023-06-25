@@ -45,7 +45,7 @@ void Char::set_y_px(double y_px){
     _y_px = y_px;
 }
 
-//Cada nível a velocidade aumenta - Apenas os Inimigos tem que fazer isso -
+//Cada nivel a velocidade aumenta - Apenas os Inimigos tem que fazer isso -
 void Char::set_speed(double speed){
     _speed = speed * 75/ (15000 - _interface.get_level() * 1000);
 }
@@ -55,12 +55,12 @@ void Char::set_direction(Direction direction){
 
 }
 
-//Logica de movimentação do personagem
+//Logica de movimentacao do personagem
 int Char::move() {
 
 }
 
-//update na posição do personagem
+//update na posicao do personagem
 void Char::update_position(){
 
 }

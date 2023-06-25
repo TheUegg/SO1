@@ -14,6 +14,7 @@ class EnemyShip: public Char{
         void set_mode();
 
         bool is_direction_available(Direction direction);
+
         void reset();
 
     private:
