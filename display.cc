@@ -1,9 +1,9 @@
 #include "display.h"
 
-Display::Display(Interface * interface, Input * input;){
+Display::Display(Interface * interface){
     load_and_bind_textures();
     _interface = *interface;
-    _input = *input;
+    _input = new Input(interface);
     battleShip_sprite = 0;
     enemyShip_sprite = 0;
 }

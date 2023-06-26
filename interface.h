@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include "enum.h"
+#include "battleShip.h"
+#include "enemyShip.h"
 
 class Interface{
     public:
-        Interface();
+        Interface(BattleShip *player, EnemyShip *enemy_bl, EnemyShip *enemy_br, EnemyShip *enemy_tl, EnemyShip *enemy_tr);
         int get_position_x(int x);
         int get_position_y(int x);
         int get_position_px_x(int x);
@@ -42,6 +44,11 @@ class Interface{
         static int _level;
         static unsigned int _points;
         static Tile _maze[32][32];
+        static Battleship _player;
+        static EnemyShip _enemy_bl; 
+        static EnemyShip _enemy_br;
+        static EnemyShip _enemy_tl;
+        static EnemyShip _enemy_tr;
         
 };
 

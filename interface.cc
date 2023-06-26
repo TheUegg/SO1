@@ -1,5 +1,6 @@
 #include "interface.h"
 
+void Interface::Interface(BattleShip *player, EnemyShip *enemy_bl, EnemyShip *enemy_br, EnemyShip *enemy_tl, EnemyShip *enemy_tr)
 
 //DEFINIR O MAZE
     Tile Interface::_maze[32][32] = {

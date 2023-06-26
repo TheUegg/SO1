@@ -9,6 +9,8 @@
 #include "enum.h"
 #include "battleShip.h"
 #include "enemyShip.h"
+#include "interface.h"
+#include "display.h"
 
 __BEGIN_API
 
@@ -28,7 +30,8 @@ public:
         enemy_tl = new EnemyShip(ENEMY_TOP_LEFT);
         enemy_tr = new EnemyShip(ENEMY_TOP_RIGHT);
 
-
+        Interface interface = new Interface(&battleShip, &enemy_bl, &enemy_br, &enemy_tl, &enemy_tr);
+        Display display = new Display(&interface);
 
     }
 
