@@ -1,4 +1,5 @@
 #include "display.h"
+#include "enum.h"
 
 Display::Display(Interface * interface){
     load_and_bind_textures();

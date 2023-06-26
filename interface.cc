@@ -108,5 +108,5 @@ void Interface::reset_maze(){
     _positions[3] = [27, 3];
     _positions[4] = [27, 27];
 
-    }
 }
+

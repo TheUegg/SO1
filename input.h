@@ -3,21 +3,30 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "display.h"
+#include "interface.h"
+#include "enum.h"
 //#include<main_class.h>
 //#include<player.h>
 
 class Input
 {
 public:
-    Input(Display * display /*, Main * main, Player * player*/);
+    Input(Interface * interface);
 
-    void run();
+    void movePlayer(Direction direc);
 
-    void draw_texture(unsigned int texture, int length, int height, float angle);
+    void shootPlayer();
+
+    void pause();
+
+    void reset();
+
+    //void run();
+
+    //void draw_texture(unsigned int texture, int length, int height, float angle);
 
 private:
-    Display * display_;
+    Interface * _interface;
     //Main * main_;
     //Player * player_;
 };

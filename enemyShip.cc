@@ -27,3 +27,29 @@ void EnemyShip::reset() { //reseta posicoes dos inimigos para inicial
         //interface.set_position_px(ENEMY_BOTTOM_RIGHT, &, &);
     }
 }
+
+/*
+void EnemyShip::make_shot(){ //cria um vetor de tiros onde cada tiro eh um vetor composto por {x,y,dir}
+    dir = //escolhe uma direcao random
+    new_shot = {Enemyship.get_x(),EnemyShip.get_y(),}
+    ESshots.push_back(new_shot)
+}
+*\
+/*
+void EnemyShip::update_shot(){
+    int size = ESshots.size()
+    if size != 0 {
+        for (int i = 0; i < size; i++ ) {
+            if (ESshots[i][2] == 1) {
+                ESshots[i][1]++;
+            } else if (BSshots[i][2] == 2) {
+                ESshots[i][0]--;
+            } else if (BSshots[i][2] == 3) {
+                ESshots[i][1]--;
+            } else {
+                ESshots[i][0]++;
+            }
+        }
+    }
+}
+*/

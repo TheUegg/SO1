@@ -12,8 +12,8 @@ void BattleShip::reset(){
 
 /*
 void BattleShip::make_shot(input){ //cria um vetor de tiros onde cada tiro eh um vetor composto por {x,y,dir}
-    new_shot = {BattleShip.get_x(),BattleShip.get_x(),input}
-    BSshots.push_back()
+    new_shot = {BattleShip.get_x(),BattleShip.get_y(),input}
+    BSshots.push_back(new_shot)
 }
 
 
