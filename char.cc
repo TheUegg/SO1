@@ -55,6 +55,10 @@ void Char::set_direction(Direction direction){
 
 }
 
+Direction Char::get_direction(){
+    return _direction;
+}
+
 //Logica de movimentacao do personagem
 int Char::move() {
 

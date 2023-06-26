@@ -6,6 +6,7 @@
 
 class Interface{
     public:
+        Interface();
         int get_position_x(int x);
         int get_position_y(int x);
         int get_position_px_x(int x);
@@ -29,6 +30,8 @@ class Interface{
         void reset_maze();
         void reset_level();
         void reset_lives();
+
+        void get_bullets();
 
     private:
 

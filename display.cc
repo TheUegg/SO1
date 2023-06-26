@@ -1,9 +1,9 @@
 #include "display.h"
-#include "enum.h"
 
-Display::Display(Interface * interface){
+Display::Display(Interface * interface, Input * input;){
     load_and_bind_textures();
     _interface = *interface;
+    _input = *input;
     battleShip_sprite = 0;
     enemyShip_sprite = 0;
 }
@@ -147,16 +147,16 @@ void Display::run()
             case sf::Event::KeyPressed:
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
                     std::cout << "Keyboard esquerda!" << std::endl;
-                    //player_.moveLeft();
+                    _input->movePlayer(LEFT);
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
                     std::cout << "Keyboard direita!" << std::endl;
-                    //player_.moveRight();
+                    _input->movePlayer(RIGHT);
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     std::cout << "Keyboard para baixo!" << std::endl;
-                    //player_.moveDown();
+                    _input->movePlayer(DOWN);
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                     std::cout << "Keyboard para cima!" << std::endl;
-                    //player_.moveUp();
+                    _input->movePlayer(UP);
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
                     std::cout << "Keyboard espaco!" << std::endl;
                     //player_.shoot();
@@ -170,7 +170,7 @@ void Display::run()
                     window.close();
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
                     std::cout << "Keyboard para R!" << std::endl;
-                    //main_.reset();
+                    _input->reset();
                 } else
                     std::cout << "Keyboard pressed = " << event.key.code << std::endl;
                 break;

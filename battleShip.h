@@ -12,6 +12,7 @@ class BattleShip: public Char{
         void reset();
         //void make_shot();
         //void update_shot();
+        // void take_hit();
         
 
 

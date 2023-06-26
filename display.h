@@ -5,11 +5,12 @@
 #include <SFML/Graphics.hpp>
 #include "enum.h"
 #include "interface.h"
+#include "input.h"
 
 class Display
 {
 public:
-    Display(Interface * interface);
+    Display(Interface * interface, Input * input;);
 
     void draw_maze();
     void draw_battleShip();
@@ -33,6 +34,7 @@ private:
 
     //novos files
     Interface _interface;
+    Input _input;
     //KeyInput _key;// talvez algo assim
 
     //maze texture

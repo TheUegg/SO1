@@ -28,6 +28,7 @@ class Char{
         // - só funciona para as inimigas -
 
         void set_direction(Direction direction);
+        Direction get_direction();
         bool is_next_tile_available(Direction direction);
 
 
