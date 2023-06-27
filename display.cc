@@ -1,4 +1,5 @@
 #include "display.h"
+#include "battleShip.h"
 
 Display::Display(Interface * interface){
     load_and_bind_textures();

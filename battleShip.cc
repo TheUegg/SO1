@@ -1,4 +1,5 @@
 #include "battleShip.h"
+#include "interface.h"
 
 BattleShip::BattleShip(Name name): Char(name) {
     set_speed(1.0);

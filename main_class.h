@@ -11,6 +11,7 @@
 #include "enemyShip.h"
 #include "interface.h"
 #include "display.h"
+#include "char.h"
 
 __BEGIN_API
 
