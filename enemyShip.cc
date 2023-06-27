@@ -16,24 +16,24 @@ bool EnemyShip::is_direction_available(Direction direction){
 }
 
 void EnemyShip::reset() { //reseta posicoes dos inimigos para inicial
-    if (_name == ENEMY_TOP_LEFT) {
-        _interface.set_position(ENEMY_TOP_LEFT, 3, 3);
-        //interface.set_position_px(ENEMY_TOP_LEFT, &, &);
-    } else if (_name == ENEMY_TOP_RIGHT)
+    switch (_name)
     {
-        _interface.set_position(ENEMY_TOP_RIGHT,3,27);
-        //interface.set_position_px(ENEMY_TOP_RIGHT, &, &);
-    } else if (_name == ENEMY_BOTTOM_LEFT)
-    {
+    case ENEMY_TOP_LEFT:
+        _interface.set_position(ENEMY_TOP_LEFT, 3, 3);       
+        break;
+    case ENEMY_TOP_RIGHT:
+        _interface.set_position(ENEMY_TOP_RIGHT, 3, 27);
+        break;
+    case ENEMY_BOTTOM_LEFT:
         _interface.set_position(ENEMY_BOTTOM_LEFT, 27, 3);
-        //interface.set_position_px(ENEMY_BOTTOM_LEFT, &, &);
-
-    } else if (_name == ENEMY_BOTTOM_RIGHT)
-    {
+        break;
+    case ENEMY_BOTTOM_RIGHT:
         _interface.set_position(ENEMY_BOTTOM_RIGHT, 27, 27);
-        //interface.set_position_px(ENEMY_BOTTOM_RIGHT, &, &);
+        break;
+    default:
+        break;
     }
-}
+    }
 
 
 void EnemyShip::make_shot(){ //cria um vetor de tiros onde cada tiro eh um vetor composto por {x,y,dir}

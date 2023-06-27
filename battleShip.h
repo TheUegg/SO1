@@ -8,11 +8,11 @@
 class BattleShip: public Char{
     public:
         BattleShip(Name name);
-        //int BSshots[];
+
         void reset();
         //void make_shot();
         //void update_shot();
-        // void take_hit();
+        void take_hit();
         
 
 
