@@ -3,22 +3,22 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <RenderWindow.hpp>
 #include "enum.h"
 #include "interface.h"
 #include "input.h"
+#include "battleShip.h"
 
 class Display
 {
 public:
-    Display(Interface * interface, Input * input;);
+    Display(Interface * interface, Input * input);
 
     void draw_maze();
     void draw_battleShip();
     void draw_enemy(Name name);
     void draw_scores();
     //void set_game(Game *game); pode ser como se fose o main(controlador geral)
-    bool run();//momentos de pause sleep e talz
-
     void draw_texture(unsigned int texture, int lenght, int height, double angle);
 
     void start();
@@ -51,7 +51,7 @@ private:
     sf::Texture battleShip_2_tex;
     sf::Texture battleShip_3_tex;
     int battleShip_sprite;
-    sf::Sprite battleShip[4];
+    sf::Sprite playerShip[4];
 
 
     //Enemy texture
@@ -61,6 +61,8 @@ private:
     sf::Texture enemyShip_3_tex;
     int enemyShip_sprite;
     sf::Sprite enemyShip[4];
+
+    sf::Sprite enemies[];
 
 
     //UI texture

@@ -1,7 +1,7 @@
 #include "display.h"
 #include "battleShip.h"
 
-Display::Display(Interface * interface){
+Display::Display(Interface * interface, Input * input){
     load_and_bind_textures();
     _interface = *interface;
     _input = new Input(interface);
@@ -32,17 +32,17 @@ void Display::load_and_bind_textures()
     battleShip_3_tex.loadFromFile("sprites/space_ships/space_ship4.png");
 
     // Bind battleShip textures
-    battleShip[0].setTexture(battleShip_0_tex);
-    battleShip[0].scale(-0.5, -0.5);
+    playerShip[0].setTexture(battleShip_0_tex);
+    playerShip[0].scale(-0.5, -0.5);
 
-    battleShip[1].setTexture(battleShip_1_tex);
-    battleShip[1].scale(-0.5, -0.5);
+    playerShip[1].setTexture(battleShip_1_tex);
+    playerShip[1].scale(-0.5, -0.5);
 
-    battleShip[2].setTexture(battleShip_2_tex);
-    battleShip[2].scale(-0.5, -0.5);
+    playerShip[2].setTexture(battleShip_2_tex);
+    playerShip[2].scale(-0.5, -0.5);
 
-    battleShip[3].setTexture(battleShip_3_tex);
-    battleShip[3].scale(-0.5, -0.5);
+    playerShip[3].setTexture(battleShip_3_tex);
+    playerShip[3].scale(-0.5, -0.5);
 
 
     // Bind enemyShip
@@ -86,10 +86,10 @@ void Display::draw_maze(){
     _display.draw(score_sprite);
 
 }
-
+/*
 void Display::draw_battleShip(){
     sf::Sprite sprite;
-    sprite = battleShip[(int)(battleShip_sprite / 4)];
+    sprite = playerShip[(int)(battleShip_sprite / 4)];
     sprite.setPosition(50, 50);
 }
 
@@ -109,26 +109,25 @@ void Display::draw_enemy(Name name){
     {
         sprite.setPosition(75,75);
     }
-    
-    
-    
+} */
 
-    
-}
-
-void Display::start(){
-    draw_enemy(ENEMY_TOP_LEFT);
-    draw_enemy(ENEMY_TOP_RIGHT);
-    draw_enemy(ENEMY_BOTTOM_LEFT);
-    draw_enemy(ENEMY_BOTTOM_RIGHT);
+/*void Display::start(){ //ok isso aqui vai precisar ser refeito pra ser a funcao que soh mostra o ready na tela um pouco antes de chamar o run, que faz o resto
+    //draw_enemy(ENEMY_TOP_LEFT);
+    //draw_enemy(ENEMY_TOP_RIGHT);
+    //draw_enemy(ENEMY_BOTTOM_LEFT);
+    //draw_enemy(ENEMY_BOTTOM_RIGHT);
     ready_sprite.setPosition(100,160);
     _display.draw(ready_sprite);
     _display.display();
-}
+}*/
 
 void Display::run()
 {
-    _display(sf::VideoMode(1090, 750), "SFML works!");
+    _display = window(sf::VideoMode(1090, 750), "SFML works!");
+
+    ready_sprite.setPosition(100,160);
+    _display.draw(ready_sprite);
+    _display.display();
 
     //Link: https://www.sfml-dev.org/tutorials/2.5/window-events.php
     //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
@@ -148,16 +147,16 @@ void Display::run()
             case sf::Event::KeyPressed:
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
                     std::cout << "Keyboard esquerda!" << std::endl;
-                    _input->movePlayer(LEFT);
+                    _input.movePlayer(LEFT);
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
                     std::cout << "Keyboard direita!" << std::endl;
-                    _input->movePlayer(RIGHT);
+                    _input.movePlayer(RIGHT);
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     std::cout << "Keyboard para baixo!" << std::endl;
-                    _input->movePlayer(DOWN);
+                    _input.movePlayer(DOWN);
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                     std::cout << "Keyboard para cima!" << std::endl;
-                    _input->movePlayer(UP);
+                    _input.movePlayer(UP);
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
                     std::cout << "Keyboard espaco!" << std::endl;
                     //player_.shoot();
@@ -166,12 +165,10 @@ void Display::run()
                     //main_.pause();
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
                     std::cout << "Keyboard Q!" << std::endl;
-                    //main_.exit();
-                    //ou podemos fazer direto um
-                    window.close();
+                    _display.close();
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
                     std::cout << "Keyboard para R!" << std::endl;
-                    _input->reset();
+                    _input.reset();
                 } else
                     std::cout << "Keyboard pressed = " << event.key.code << std::endl;
                 break;
@@ -181,12 +178,20 @@ void Display::run()
         _display.clear();
         _display.draw(maze_sprite);
                 
-        space_ship_sprite.setPosition(_interface.get_position_px_x(0),_interface.get_position_px_y(0));
-        _display.draw(space_ship_sprite);
-        
-        //TODO organizar a lógica para colocar todos os inimigos
-        enemy_ship_sprite.setPosition(245, 150);
-        _display.draw(enemy_ship_sprite);
+        playerShip[_interface.get_direction(BATTLESHIP)].setPosition(_interface.get_position_px_x(BATTLESHIP),_interface.get_position_px_y(BATTLESHIP));
+        _display.draw(playerShip[_interface.get_direction(BATTLESHIP)]);
+
+        enemies[0] = enemyShip[ENEMY_TOP_LEFT].setPosition(_interface.get_position_px_x(ENEMY_TOP_LEFT),_interface.get_position_px_y(ENEMY_TOP_LEFT));
+        _display.draw(enemies[0]);
+
+        enemies[1] = enemyShip[ENEMY_TOP_RIGHT].setPosition(_interface.get_position_px_x(ENEMY_TOP_RIGHT),_interface.get_position_px_y(ENEMY_TOP_RIGHT));
+        _display.draw(enemies[1]);
+
+        enemies[2] = enemyShip[ENEMY_BOTTOM_LEFT].setPosition(_interface.get_position_px_x(ENEMY_BOTTOM_LEFT),_interface.get_position_px_y(ENEMY_BOTTOM_LEFT));
+        _display.draw(enemies[2]);
+
+        enemies[3] = enemyShip[ENEMY_BOTTOM_RIGHT].setPosition(_interface.get_position_px_x(ENEMY_BOTTOM_RIGHT),_interface.get_position_px_y(ENEMY_BOTTOM_RIGHT));
+        _display.draw(enemies[3]);
 
         //shot_sprite.setPosition(204, 400);
         //_display.draw(shot_sprite);

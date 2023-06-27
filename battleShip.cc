@@ -1,42 +1,67 @@
 #include "battleShip.h"
-#include "interface.h"
 
-BattleShip::BattleShip(Name name): Char(name) {
+BattleShip::BattleShip(Name name, Interface *interface): Char(name) {
     set_speed(1.0);
+    _interface = *interface;
 }
 
 
 void BattleShip::reset(){ //reseta
-    interface.set_position(BATTLESHIP, 16, 16);
+    _interface.set_position(BATTLESHIP, 16, 16);
     //interface.set_position_px(BATTLESHIP, &, &);
 }
 
-/*
-void BattleShip::make_shot(input){ //cria um vetor de tiros onde cada tiro eh um vetor composto por {x,y,dir}
-    new_shot = {BattleShip.get_x(), BattleShip.get_y(), BattleShip.get_direction()}
-    BSshots.push_back(new_shot)
+
+void BattleShip::make_shot(){ //chama a funcao da interface para criar bala
+    _interface.create_bullet(get_x(), get_y(), _direction);
+    
 }
 
 
-
-void BattleShip::update_shot(){ // avanca todos os tiros do jogador
-    int size = BSshots.size()
-    if size != 0 {
-        for (int i = 0; i < size; i++ ) {
-            if (BSshots[i][2] == 1) {
-                BSshots[i][1]++;
-            } else if (BSshots[i][2] == 2) {
-                BSshots[i][0]--;
-            } else if (BSshots[i][2] == 3) {
-                BSshots[i][1]--;
-            } else {
-                BSshots[i][0]++;
-            }
-        }
+void BattleShip::take_hit(){ //acionada quando toma bala dos inimigos
+    int live = _interface.get_lives();
+    _interface.lose_life(live);
+    //game over
+    if(live == 1){
+        _interface.reset_maze();
     }
 }
 
-void BattleShip::take_hit(){ //acionada quando toma bala
-    interface.lose_life();
+void BattleShip::move(Direction direction){
+    if (_direction == UP){
+        if(is_next_tile_available(UP))
+            int x = _interface.get_position_x(BATTLESHIP);
+            int y = _interface.get_position_y(BATTLESHIP);
+            _interface.set_position(BATTLESHIP, x, y-1);
+    }else if (_direction == LEFT){
+        if(is_next_tile_available(LEFT))
+            int x = _interface.get_position_x(BATTLESHIP);
+            int y = _interface.get_position_y(BATTLESHIP);
+            _interface.set_position(BATTLESHIP, x-1, y);
+    }else if (_direction == RIGHT){
+        if(is_next_tile_available(RIGHT))
+            int x = _interface.get_position_x(BATTLESHIP);
+            int y = _interface.get_position_y(BATTLESHIP);
+            _interface.set_position(BATTLESHIP, x+1, y);
+    }else if (_direction == DOWN){
+        if(is_next_tile_available(DOWN))
+            int x = _interface.get_position_x(BATTLESHIP);
+            int y = _interface.get_position_y(BATTLESHIP);
+            _interface.set_position(BATTLESHIP, x, y+1);
+    }
+    
 }
-*/
+
+//FAZER
+bool is_next_tile_available(Direction direction, int x, int y){
+    if (direction == UP and _interface._maze[x][y] == u or _interface._maze[x][y] == q or _interface._maze[x][y] == p){
+        return false;
+    }else if (direction == LEFT and _interface._maze[x][y] == l or _interface._maze[x][y] == q or _interface._maze[x][y] == z){
+        return false;
+    }else if (direction == RIGHT and _interface._maze[x][y] == r or _interface._maze[x][y] == p or _interface._maze[x][y] == m){
+        return false;
+    }else if (direction == DOWN and _interface._maze[x][y] == d or _interface._maze[x][y] == z or _interface._maze[x][y] == z){
+        return false;
+    }
+    return true;
+}

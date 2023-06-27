@@ -1,7 +1,7 @@
 #include "input.h"
 
 
-Input::input(Interface * interface){
+Input::Input(Interface * interface){
     _interface = *interface;
 }
 
