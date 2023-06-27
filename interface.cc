@@ -1,6 +1,13 @@
 #include "interface.h"
 
-void Interface::Interface(BattleShip *player, EnemyShip *enemy_bl, EnemyShip *enemy_br, EnemyShip *enemy_tl, EnemyShip *enemy_tr)
+void Interface::Interface(BattleShip *player, EnemyShip *enemy_bl, EnemyShip *enemy_br, EnemyShip *enemy_tl, EnemyShip *enemy_tr){
+    _player = *player;
+    _enemy_bl = *enemy_bl;
+    _enemy_br = *enemy_br;
+    _enemy_tl = *enemy_tl;
+    _enemy_tr = *enemy_tr;
+    reset_maze();
+}
 
 //DEFINIR O MAZE
     Tile Interface::_maze[32][32] = {
@@ -80,6 +87,8 @@ void Interface::set_position(int x, int i, int j){ //seta personagens no grid us
 void Interface::set_position_px(int x){ // seta personagens na tela usando coordenadas no grid, adicionando offset para encaixar na tela
     _positions_px[x] = [(_positions[x][0]*20)+10,(_positions[x][1]*20)+222];
 }
+
+
 
 void Interface::add_points(int points){ //incrementa pontuacao
     _points += 100;
